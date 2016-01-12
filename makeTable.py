@@ -23,8 +23,6 @@ if __name__ == '__main__':
 	mainList = {}
 
 	hospital_score = 0
-	hcpcs = 0
-	procedures = 0
 
 	with open('National_Downloadable_File.csv') as data:
 		reader = csv.DictReader(data)
@@ -36,7 +34,7 @@ if __name__ == '__main__':
 			else:
 				physician = Physician(row['NPI'], row['First Name'], row['Last Name'], row['Graduation year'], \
 				row['Medical school name'], row['Gender'], row['Primary specialty'], row['Zip Code'], \
-				row['Claims based hospital affiliation CCN 1'], hospital_score, hcpcs, procedures)
+				row['Claims based hospital affiliation CCN 1'], hospital_score)
 				mainList[physician.npi] = physician
 		
 			print physician.npi
