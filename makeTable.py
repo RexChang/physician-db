@@ -4,7 +4,7 @@ import csv
 class Physician:
 
 	def __init__(self, npi, first_name, last_name, grad_year, school, gender, specialty, zipcode, 
-		hospital_ccn, hospital_score, hcpcs, procedures):
+		hospital_ccn, hospital_score):
 		self.npi = npi
 		self.first_name = first_name
 		self.last_name = last_name
@@ -15,7 +15,7 @@ class Physician:
 		self.zipcode = [zipcode]
 		self.hospital_ccn = hospital_ccn
 		self.hospital_score = hospital_score
-		self.hcpcs = hcpcs
+		self.experience = None
 		self.procedures = procedures
 if __name__ == '__main__':
 
