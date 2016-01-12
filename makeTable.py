@@ -13,16 +13,27 @@ class Physician:
 		self.gender = gender
 		self.specialty = specialty
 		self.zipcode = [zipcode]
-		self.hospital_ccn = hospital_ccn
-		self.hospital_score = hospital_score
+		self.hospital_scores = []
 		self.experience = None
 		
+
+#TODO in progress
+
+def get_ccn(row):
+	if row['Claims based hospital affiliation CCN 1']
+
+[row['Claims based hospital affiliation CCN 1'], hospital_scores[row['Claims based hospital affiliation CCN 1']]],
 
 if __name__ == '__main__':
 
 	mainList = {}
+	hospital_scores = {}
 
-	hospital_score = 0
+	with open('hospital score.csv') as data:
+		reader = csv.DictReader(data)
+		for row in reader:
+			hospital_scores[row['Provider Number']] = row['Total Performance Score']
+	data.close()
 
 	with open('National_Downloadable_File.csv') as data:
 		reader = csv.DictReader(data)
@@ -31,10 +42,16 @@ if __name__ == '__main__':
 			if row['NPI'] in mainList:
 				mainList[row['NPI']].zipcode.append(row['Zip Code'])
 			
+			#call a function that checks how many ccn's a physician has, and returns hospital scores.		
+
+
 			else:
 				physician = Physician(row['NPI'], row['First Name'], row['Last Name'], row['Graduation year'], \
 				row['Medical school name'], row['Gender'], row['Primary specialty'], row['Zip Code'], \
-				row['Claims based hospital affiliation CCN 1'], hospital_score)
+			
+
+
+
 				mainList[physician.npi] = physician
 		
 			print physician.npi
@@ -43,6 +60,12 @@ if __name__ == '__main__':
 				break
 
 	print len(mainList)
+	data.close()
+
+
+
+
+
 
 
 
