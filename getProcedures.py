@@ -22,13 +22,19 @@ browser = Browser()
 browser.visit('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html')
 browser.find_link_by_text('Medicare Physician and Other Supplier PUF, CY2013, Microsoft Excel (.xlsx) Provider Last Name (A)').first.click()
 browser.find_by_value("Accept").first.click()
-alert = browser.find_by_text("Continue").first.click()
-alert().accept()
+
+#browser.find_by_text("Continue").first.click()
+
+alert = browser.get_alert()
+#alert.text
+#alert.accept()
+alert.dismiss()
+
 #browser.find_by_value("Accept").first.click()
 #alert = browser.switch_to_alert()
 #alert().accept()
 
-time.sleep(60)
+time.sleep(6)
 
 browser.quit()
 
