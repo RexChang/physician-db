@@ -65,10 +65,12 @@ def get_experience(filename, mainList):
         procedures = {}
         
         with open(filename) as data:
+                data.next()
                 reader = csv.DictReader(data)
+                index = 0
                 for row in reader:
                   #for each physician, key is the NPI & value is a list of [HCPCS code, num  procedures]    
-                  entry = [row['hcpcs_code'], row['line_srvc_cnt']]
+                  entry = [row['hcpcs_code'], row[' line_srvc_cnt ']]
 
                   #there may be multiple rows per physician. check for this case
                   if row['npi'] not in procedures: 
@@ -76,10 +78,17 @@ def get_experience(filename, mainList):
                   else:
                     procedures[row['npi']].append(entry)
 
-                    #copy experience data to mainList. not the most efficient approach, but possibly necessary due to multiple
-                    #rows of the same physician
-        for item in mainList:
-          item.experience = procedures.get(item.npi)
+                  #copy experience data to mainList. not the most efficient approach, but possibly necessary due to multiple
+                  #rows of the same physician
+        
+        npis = mainList.keys()
+        for item in npis:
+
+          if item in procedures:
+            mainList[item].experience = procedures[item]
+            print "NPI: ", mainList[item].npi
+            print " Experience: ", mainList[item].experience, "\n"
+            
 
 
 if __name__ == '__main__':
@@ -115,6 +124,17 @@ if __name__ == '__main__':
 			if counter == 500:
 				break
 	data.close()
+
+        experience_filenames = ["2013_Procedures/2013_Procedures_A.csv", "2013_Procedures/2013_Procedures_B.csv",
+                                "2013_Procedures/2013_Procedures_C.csv",  "2013_Procedures/2013_Procedures_D.csv",
+                                "2013_Procedures/2013_Procedures_EFG.csv",  "2013_Procedures/2013_Procedures_HIJ.csv",
+                                 "2013_Procedures/2013_Procedures_KL.csv",  "2013_Procedures/2013_Procedures_MN.csv",
+                                 "2013_Procedures/2013_Procedures_OPQ.csv",  "2013_Procedures/2013_Procedures_R.csv",
+                                 "2013_Procedures/2013_Procedures_S.csv",  "2013_Procedures/2013_Procedures_TUVWX.csv",
+                                 "2013_Procedures/2013_Procedures_YZ.csv"]
+
+        for name in experience_filenames:
+          get_experience(name, mainList)
 
 
 	# write out data
