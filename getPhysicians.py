@@ -22,6 +22,7 @@ time.sleep(60)
 path = os.path.expanduser("~")
 os.chdir(path) 
 os.chdir("Downloads/")
+os.system("rm National_Downloadable_File.csv.part")
 os.system("mv National_Downloadable_File.csv ../Desktop/")
 
 browser.quit()
