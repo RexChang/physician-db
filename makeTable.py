@@ -17,6 +17,10 @@ class Physician:
 		self.experience = None
 		
 
+"""
+get_scores: matches a physician's ccn with the hospital database. returns a list of hospital ccn's and its respective score for a physician.
+Input: row(a row in the physician database, represents a physician), hospital_scores(a dictionary of hospital ccns and their scores)
+"""
 def get_scores(row, hospital_scores):
 	list_of_ccn = []
 	if row['Claims based hospital affiliation CCN 1'] != '':
@@ -58,12 +62,14 @@ if __name__ == '__main__':
 	mainList = {}
 	hospital_scores = {}
 
+	# create a dictionary of hospital ccn and score pairs
 	with open('hospital scores.csv') as data:
 		reader = csv.DictReader(data)
 		for row in reader:
 			hospital_scores[row['Provider Number']] = row['Total Performance Score']
 	data.close()
 
+	# create a dictionary of physician npi and physician object pairs
 	with open('National_Downloadable_File.csv') as data:
 		reader = csv.DictReader(data)
 		counter = 0
@@ -84,10 +90,19 @@ if __name__ == '__main__':
 				break
 	data.close()
 
-	
-	print mainList['1891805826'].first_name
-	print mainList['1891805826'].last_name
-	print mainList['1891805826'].hospital_scores
+
+	# write out data
+	with open('physician_data.csv', 'wb') as output:
+		writer = csv.writer(output) 
+		writer.writerow(["NPI", "First Name", "Last Name", "School", "Grad Year", "Gender", 
+			"Primary Specialty", "Zip Code", "Hospital CCN and score", "Experience"])
+		for key, value in mainList.items():
+			writer.writerow([key, value.first_name, value.last_name, value.school, value.grad_year, 
+				value.gender, value.specialty, value.zipcode, value.hospital_scores, value.experience])
+
+	output.close()			
+
+
 
 
 
