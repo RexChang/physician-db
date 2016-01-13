@@ -18,8 +18,7 @@ browser.find_link_by_text('CSV').first.click()
 #time.sleep(60)
 
 
-# This can be modified to go to wherever your computer saves downloaded
-# files
+# This can be modified to go to wherever your computer saves downloaded files
 path = os.path.expanduser("~")
 os.chdir(path) 
 os.chdir("Downloads/")
