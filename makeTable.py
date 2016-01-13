@@ -57,6 +57,7 @@ def get_scores(row, hospital_scores):
 
 	return list_of_ccn
 
+
 if __name__ == '__main__':
 
 	mainList = {}
@@ -68,6 +69,7 @@ if __name__ == '__main__':
 		for row in reader:
 			hospital_scores[row['Provider Number']] = row['Total Performance Score']
 	data.close()
+
 
 	# create a dictionary of physician npi and physician object pairs
 	with open('National_Downloadable_File.csv') as data:
@@ -84,7 +86,7 @@ if __name__ == '__main__':
 
 				mainList[physician.npi] = physician
 		
-			#print physician.npi
+			#TODO delete this
 			counter += 1
 			if counter == 500:
 				break
@@ -101,9 +103,5 @@ if __name__ == '__main__':
 				value.gender, value.specialty, value.zipcode, value.hospital_scores, value.experience])
 
 	output.close()			
-
-
-
-
 
 	#do something
