@@ -58,6 +58,29 @@ def get_scores(row, hospital_scores):
 	return list_of_ccn
 
 
+def get_experience(filename, mainList):
+        '''reads in a single CSV file containing data about procedures performend
+        by physicians. Appends data as appropriate based on NPIs'''
+
+        procedures = {}
+        
+        with open(filename) as data:
+                reader = csv.DictReader(data)
+                for row in reader:
+                  #for each physician, key is the NPI & value is a list of [HCPCS code, num  procedures]    
+                  entry = [row['hcpcs_code], row['line_srvc_cnt']]
+
+                  #there may be multiple rows per physician. check for this case
+                  if row['npi'] not in procedures: 
+                    procedures[row['npi']] = [entry]
+                  else:
+                    procedures[row['npi']].append(entry)
+
+                    #copy experience data to mainList. not the most efficient approach, but possibly necessary due to multiple
+                    #rows of the same physician
+        for item in mainList:
+          item.experience = procedures.get(item.npi)
+
 if __name__ == '__main__':
 
 	mainList = {}
