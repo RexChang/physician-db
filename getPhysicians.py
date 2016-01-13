@@ -11,8 +11,6 @@ from selenium import webdriver
 from os.path import expanduser
 import time
 
-#browser = Browser()
-
 #do this if you want the file to save in the same folder
 profile = webdriver.FirefoxProfile()
 profile.set_preference("browser.download.folderList", 2)
