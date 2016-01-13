@@ -13,7 +13,7 @@ def main():
        profile.set_preference("browser.download.dir", os.getcwd())
        profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv")
        b = webdriver.Firefox(firefox_profile = profile)
-       b.get('https://data.medicare.gov/Hospital-Compare/Hospital-General-Information/xubh-q36u')
+       b.get('https://data.medicare.gov/Hospital-Compare/Hospital-Value-Based-Purchasing-HVBP-Total-Perform/ypbt-wvdk')
        b.find_element_by_partial_link_text('Export').click()
        b.find_element_by_partial_link_text('CSV').click()
        
@@ -22,6 +22,6 @@ def main():
 
        
        
-       sleep(10)
+      
        b.quit()
 main()
