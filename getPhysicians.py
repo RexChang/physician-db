@@ -16,12 +16,13 @@ browser.visit('https://data.medicare.gov/Physician-Compare/National-Downloadable
 browser.find_link_by_text('Export').first.click()
 browser.find_link_by_text('CSV').first.click()
 
-time.sleep(60)
+#time.sleep(60)
 
-
+"""
 path = os.path.expanduser("~")
 os.chdir(path) 
 os.chdir("Downloads/")
 os.system("mv National_Downloadable_File.csv ../Desktop/")
+"""
 
 browser.quit()
