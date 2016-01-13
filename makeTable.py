@@ -68,7 +68,7 @@ def get_experience(filename, mainList):
                 reader = csv.DictReader(data)
                 for row in reader:
                   #for each physician, key is the NPI & value is a list of [HCPCS code, num  procedures]    
-                  entry = [row['hcpcs_code], row['line_srvc_cnt']]
+                  entry = [row['hcpcs_code'], row['line_srvc_cnt']]
 
                   #there may be multiple rows per physician. check for this case
                   if row['npi'] not in procedures: 
@@ -80,6 +80,7 @@ def get_experience(filename, mainList):
                     #rows of the same physician
         for item in mainList:
           item.experience = procedures.get(item.npi)
+
 
 if __name__ == '__main__':
 
