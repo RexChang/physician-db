@@ -86,7 +86,7 @@ if __name__ == '__main__':
 		
 			#print physician.npi
 			counter += 1
-			if counter == 10:
+			if counter == 500:
 				break
 	data.close()
 
