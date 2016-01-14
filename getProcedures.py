@@ -23,7 +23,7 @@ browser.get('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics
 browser.find_element_by_link_text('Medicare Physician and Other Supplier PUF, CY2013, Microsoft Excel (.xlsx) Provider Last Name (A)').click()
 browser.find_element_by_name("next").click()
 
-#browser.find_by_text("Continue").first.click()
+#browser.find_by_text("Continue").first.click(
 
 alert = browser.get_alert()
 #alert.text
