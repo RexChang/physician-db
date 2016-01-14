@@ -15,6 +15,7 @@ import zipfile
 import csv
 import xlrd
 
+
 """
 def excel_to_csv():
 	wrkbk = xlrd.open_workbook('')
@@ -52,6 +53,7 @@ def main():
 
 	Alert(browser).accept()
 
+
 	time.sleep(60)
 
 
@@ -63,6 +65,9 @@ def main():
 	zip.close()
 	os.chdir("physician-db/")
 	os.system("rm Medicare_Provider_Util_Payment_PUF_a_CY2013.zip")
+
+
+
 
 	browser.quit()
 	#excel_to_csv():
