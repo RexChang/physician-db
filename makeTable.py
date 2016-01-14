@@ -3,7 +3,7 @@ import csv
 class Physician:
 
 	def __init__(self, npi, first_name, last_name, grad_year, school, gender, specialty, zipcode, 
-		hospital_scores):
+		hospital_scores, experience):
 
 		self.npi = npi
 		self.first_name = first_name
@@ -14,7 +14,7 @@ class Physician:
 		self.specialty = specialty
 		self.zipcode = [zipcode]
 		self.hospital_scores = hospital_scores
-		self.experience = None
+		self.experience = experience
 		
 
 """
@@ -58,12 +58,10 @@ def get_scores(row, hospital_scores):
 	return list_of_ccn
 
 
-def get_experience(filename, mainList):
+def get_experience(filename, procedures):
         '''reads in a single CSV file containing data about procedures performend
         by physicians. Appends data as appropriate based on NPIs'''
 
-        procedures = {}
-        
         with open(filename) as data:
                 data.next()
                 reader = csv.DictReader(data)
@@ -78,23 +76,27 @@ def get_experience(filename, mainList):
                   else:
                     procedures[row['npi']].append(entry)
 
+        data.close()
+
                   #copy experience data to mainList. not the most efficient approach, but possibly necessary due to multiple
                   #rows of the same physician
         
+
+        """
         npis = mainList.keys()
         for item in npis:
 
           if item in procedures:
             mainList[item].experience = procedures[item]
-            print "NPI: ", mainList[item].npi
-            print " Experience: ", mainList[item].experience, "\n"
-            
-
+            #print "NPI: ", mainList[item].npi
+            #print " Experience: ", mainList[item].experience, "\n"
+        """
 
 if __name__ == '__main__':
 
 	mainList = {}
 	hospital_scores = {}
+	procedures = {}
 
 	# create a dictionary of hospital ccn and score pairs
 	with open('hospital scores.csv') as data:
@@ -104,38 +106,38 @@ if __name__ == '__main__':
 	data.close()
 
 
+	experience_filenames = ["2013_Procedures/2013_Procedures_A.csv", "2013_Procedures/2013_Procedures_B.csv",
+     "2013_Procedures/2013_Procedures_C.csv",  "2013_Procedures/2013_Procedures_D.csv", 
+     "2013_Procedures/2013_Procedures_EFG.csv",  "2013_Procedures/2013_Procedures_HIJ.csv", 
+     "2013_Procedures/2013_Procedures_KL.csv",  "2013_Procedures/2013_Procedures_MN.csv", 
+     "2013_Procedures/2013_Procedures_OPQ.csv",  "2013_Procedures/2013_Procedures_R.csv", 
+     "2013_Procedures/2013_Procedures_S.csv",  "2013_Procedures/2013_Procedures_TUVWX.csv", 
+     "2013_Procedures/2013_Procedures_YZ.csv"]
+
+	for name in experience_filenames:
+		get_experience(name, procedures)
+
 	# create a dictionary of physician npi and physician object pairs
 	with open('National_Downloadable_File.csv') as data:
 		reader = csv.DictReader(data)
-		counter = 0
 		for row in reader:
 			if row['NPI'] in mainList:
 				mainList[row['NPI']].zipcode.append(row['Zip Code'])
 
 			else:
 				list_of_ccn = get_scores(row, hospital_scores)
+
 				physician = Physician(row['NPI'], row['First Name'], row['Last Name'], row['Graduation year'], \
-				row['Medical school name'], row['Gender'], row['Primary specialty'], row['Zip Code'], list_of_ccn)
+				row['Medical school name'], row['Gender'], row['Primary specialty'], row['Zip Code'], list_of_ccn, None)
 
 				mainList[physician.npi] = physician
+
+				try:
+					physician.experience = procedures[row['NPI']]
+				except KeyError:
+					pass
 		
-			#TODO delete this
-			counter += 1
-			if counter == 500:
-				break
 	data.close()
-
-        experience_filenames = ["2013_Procedures/2013_Procedures_A.csv", "2013_Procedures/2013_Procedures_B.csv",
-                                "2013_Procedures/2013_Procedures_C.csv",  "2013_Procedures/2013_Procedures_D.csv",
-                                "2013_Procedures/2013_Procedures_EFG.csv",  "2013_Procedures/2013_Procedures_HIJ.csv",
-                                 "2013_Procedures/2013_Procedures_KL.csv",  "2013_Procedures/2013_Procedures_MN.csv",
-                                 "2013_Procedures/2013_Procedures_OPQ.csv",  "2013_Procedures/2013_Procedures_R.csv",
-                                 "2013_Procedures/2013_Procedures_S.csv",  "2013_Procedures/2013_Procedures_TUVWX.csv",
-                                 "2013_Procedures/2013_Procedures_YZ.csv"]
-
-        for name in experience_filenames:
-          get_experience(name, mainList)
-
 
 	# write out data
 	with open('physician_data.csv', 'wb') as output:
