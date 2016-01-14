@@ -26,22 +26,6 @@ def excel_to_csv(filename):
 		wrkbk.writerow(sheet.row_values(row))
 	Medicare(A).close()
     
-
-def unzipFile(filename, letter):
-	"""
-	This function unzips the newly downloaded file.
-	"""
-	path = os.path.expanduser("~")
-	#os.chdir(path)
-	#os.chdir("Downloads/") #modify to wherever the file downloads on your computer
-	zip = zipfile.ZipFile(filename)
-	zip.extractall(path+"/Desktop/NuFitMedia/Procedures") #modify to wherever you want the file to end up
-	zip.close()
-	os.chdir(path+"/Desktop/NuFitMedia/Procedures")
-	os.system("rm CMS_AMA_CPT_license_agreement.pdf")
-	os.chdir(path+"/Desktop/NuFitMedia/physician-db") #return to correct directory
-	os.system("rm Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip" % letter)
-
 def main():
 
 	masterlst = [['A', 'a'], ['B', 'b'], ['C', 'c'], ['D', 'd'], ['EFG', 'efg'], ['HIJ', 'hij'], ['KL', 'kl'], ['MN', 'mn'], ['OPQ', 'opq'], ['R', 'r'], ['S', 's'], ['TUVWX', 'tuvwx'], ['YZ and Numeric', 'yzandnumeric']]
@@ -63,18 +47,44 @@ def main():
 
 		Alert(browser).accept()
 
-		print masterlst[i][1]
-
 		time.sleep(90)
 
 
 		filename = 'Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip' % (masterlst[0][1])
-        unzipFile(filename, masterlst[i][1])
+        #unzipFile(filename, masterlst[i][1])
+		path = os.path.expanduser("~")
+		#os.chdir(path)
+		#os.chdir("Downloads/") #modify to wherever the file downloads on your computer
+		zip = zipfile.ZipFile(filename)
+		zip.extractall(path+"/Desktop/NuFitMedia/Procedures") #modify to wherever you want the file to end up
+		zip.close()
+		letter = masterlst[i][1]
+		os.chdir(path+"/Desktop/NuFitMedia/Procedures")
+		os.system("rm CMS_AMA_CPT_license_agreement.pdf")
+		os.chdir(path+"/Desktop/NuFitMedia/physician-db") #return to correct directory
+		os.system("rm Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip" % letter)
+
         excel_to_csv(filename)
 		#excel_to_csv():
 
 
 	browser.quit()
+
+def unzipFile(filename, letter):
+	"""
+	This function unzips the newly downloaded file.
+	"""
+	print "in unzipFile"
+	path = os.path.expanduser("~")
+	#os.chdir(path)
+	#os.chdir("Downloads/") #modify to wherever the file downloads on your computer
+	zip = zipfile.ZipFile(filename)
+	zip.extractall(path+"/Desktop/NuFitMedia/Procedures") #modify to wherever you want the file to end up
+	zip.close()
+	os.chdir(path+"/Desktop/NuFitMedia/Procedures")
+	os.system("rm CMS_AMA_CPT_license_agreement.pdf")
+	os.chdir(path+"/Desktop/NuFitMedia/physician-db") #return to correct directory
+	os.system("rm Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip" % letter)
 
 
 main()
