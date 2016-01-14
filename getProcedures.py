@@ -40,7 +40,7 @@ def unzipFile(filename):
 	zip.close()
 	os.chdir(path+"/Desktop/NuFitMedia/Procedures")
 	os.system("rm CMS_AMA_CPT_license_agreement.pdf")
-	os.chdir(path+"/Desktop/NuFitMedia/physician-db")
+	os.chdir(path+"/Desktop/NuFitMedia/physician-db") #return to correct directory
 
 def main():
 
@@ -56,18 +56,10 @@ def main():
 	browser.get('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html')
 	browser.find_element_by_link_text(link).click()
 
-	time.sleep(2)
-	browser.find_element_by_xpath("//form[input/@name = 'agree']").click()
-
-
-	Alert(browser).accept()
-
-
-	time.sleep(5) #accounts for webpage load time
+	time.sleep(5)
 	browser.find_element_by_xpath("//form[input/@name = 'agree']").click()
 
 	Alert(browser).accept()
-
 
 	time.sleep(45)
 
