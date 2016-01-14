@@ -22,6 +22,6 @@ def main():
 
        
        
-      
+       sleep(10)
        b.quit()
 main()
