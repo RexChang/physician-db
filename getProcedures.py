@@ -16,9 +16,9 @@ import csv
 import xlrd
 
 
-"""
-def excel_to_csv():
-	wrkbk = xlrd.open_workbook('')
+
+def excel_to_csv(filename):
+	wrkbk = xlrd.open_workbook(filename)
     sheet = wrkbk.shee_by_name('Sheet1')
     csv_file = open('Medicare(A)','wb')
     wr = cs.writer(Medicare(A), quoting = csv.QUOTE_ALL)
@@ -26,7 +26,7 @@ def excel_to_csv():
     for row in xrange(sheet.nrows):
     	wrkbk.writerow(sheet.row_values(row))
     Medicare(A).close()
-    """
+    
 
 def unzipFile(filename):
 	"""
@@ -49,18 +49,12 @@ def main():
 	profile = webdriver.FirefoxProfile()
 	profile.set_preference("browser.download.folderList", 2)
 	profile.set_preference("browser.download.dir", os.getcwd())
-	profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv/zip")
+	profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv, application/zip")
 	browser = webdriver.Firefox(firefox_profile = profile)
 
 	link = 'Medicare Physician and Other Supplier PUF, CY2013, Microsoft Excel (.xlsx) Provider Last Name (%s)' % (masterlst[0][0])
 	browser.get('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html')
 	browser.find_element_by_link_text(link).click()
-
-	time.sleep(2)
-	browser.find_element_by_xpath("//form[input/@name = 'agree']").click()
-
-
-	Alert(browser).accept()
 
 
 	time.sleep(5) #accounts for webpage load time
@@ -69,12 +63,12 @@ def main():
 	Alert(browser).accept()
 
 
-	time.sleep(45)
+	time.sleep(30)
 
 	filename = 'Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip' % (masterlst[0][1])
 
 	unzipFile(filename)
-	#excel_to_csv():
+	excel_to_csv(filename):
 
 	browser.quit()
 
