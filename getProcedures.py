@@ -37,7 +37,7 @@ def main():
 	browser = webdriver.Firefox(firefox_profile = profile)
 
 	#for i in range(len(masterlst)):
-	for i in range(3):
+	for i in range(1):
 		link = 'Medicare Physician and Other Supplier PUF, CY2013, Microsoft Excel (.xlsx) Provider Last Name (%s)' % (masterlst[i][0])
 		browser.get('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html')
 		browser.find_element_by_link_text(link).click()
@@ -50,7 +50,7 @@ def main():
 		time.sleep(90)
 
 
-		filename = 'Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip' % (masterlst[0][1])
+		filename = 'Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip' % (masterlst[i][1])
         #unzipFile(filename, masterlst[i][1])
 		path = os.path.expanduser("~")
 		#os.chdir(path)
@@ -61,11 +61,20 @@ def main():
 		letter = masterlst[i][1]
 		os.chdir(path+"/Desktop/NuFitMedia/Procedures")
 		os.system("rm CMS_AMA_CPT_license_agreement.pdf")
+		#excel_to_csv(filename)
+
+		filename2 = 'Medicare_Provider_Util_Payment_PUF_%s_CY2013.xlsx' % (masterlst[i][1])
+		wrkbk = xlrd.open_workbook(filename2)
+		sheet = wrkbk.sheet_by_name('Sheet1')
+		newfile = 'Medicare(%s)' % (masterlst[i][0])
+		csv_file = open(newfile,'wb')
+		wr = cs.writer(newfile, quoting = csv.QUOTE_ALL)
+		for row in xrange(sheet.nrows):
+			wrkbk.writerow(sheet.row_values(row))
+		newfile.close()
+
 		os.chdir(path+"/Desktop/NuFitMedia/physician-db") #return to correct directory
 		os.system("rm Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip" % letter)
-
-        excel_to_csv(filename)
-		#excel_to_csv():
 
 
 	browser.quit()
