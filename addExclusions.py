@@ -39,44 +39,37 @@ output = open('new_physician_data.csv', 'wb')
 writer = csv.writer(output)
 writer.writerow(["NPI", "First Name", "Last Name", "School", "Grad Year", "Gender", 
 			   "Primary Specialty", "Zip Code", "Hospital CCN and score", "Experience", "Exclusions"])
+
+
 with open('physician_data.csv') as data:
 	reader = csv.DictReader(data)
 	specialty_list = {}
-        
-        #Groups NPIs by specialty
-        specialty_groups = {}
 
-        physician_scores = {}
+        #Groups NPIs by specialty
+    specialty_groups = {}
+    physician_scores = {}
+	
 	for row in reader:
 		if row['NPI'] in list_of_exclusions:
 			row['Exclusions'] = list_of_exclusions[row['NPI']]
 		else:
 			row['Exclusions'] = ''
 
+		counter += 1
+		#print counter
+			
+		#create a dictionary of specialty-count for the entire db	
 		specialty_key = row.get('Primary Specialty')
-                
 		if specialty_key not in specialty_list.keys():
 			specialty_list[specialty_key] = 1
-                        specialty_groups[specialty_key] = [row.get('NPI'), total_experience(row.get('Experience'))]
 		else:
-		        specialty_list[specialty_key] += 1
-                        specialty_groups[specialty_key].append([row.get('NPI'), total_experience(row.get('Experience'))])
-                #print specialty_groups
-                #break
-                
-                
-	#print specialty_list
-       
+			specialty_list[specialty_key] += 1
 
-          
+    #print master_list[row['NPI']].get('Exclusions')
+    #break
+    #print "\n", counter
+    #TODO: get the write to new output part
             
-
-          
-          #print master_list[row['NPI']].get('Exclusions')
-          #break
-        #print "\n", counter
-
-        
           
           
 		
