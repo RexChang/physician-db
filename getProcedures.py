@@ -64,6 +64,9 @@ def main():
 			wr.writerow(sheet.row_values(row))
 		newfile.close()
 
+		#renames the file to correspond with makeTable.py
+		os.system("mv Medicare(%s).csv 2013_Procedures_%s.csv" % (letter, letter))
+
 		#deletes the zip file
 		os.chdir(path+"/Desktop/NuFitMedia/physician-db") #modify to move to wherever the .zip file ended up
 		os.system("rm Medicare_Provider_Util_Payment_PUF_%s_CY2013.zip" % letter)

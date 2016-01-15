@@ -28,6 +28,11 @@ def main():
 
 	time.sleep(60)
 
+	#do this if you want to rename the file
+	#os.system("mv National_Downloadable_File.csv Physician_DS")
+	
+
+
 	#do this if you want to choose where the file is saving
 	"""
 	browser = Browser()
