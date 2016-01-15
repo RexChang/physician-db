@@ -1,6 +1,30 @@
 import csv
 
 
+def total_experience(experience):
+        '''returns the total number of procedures a doctor has performed given
+        that doctor's "experience" listing in our data'''
+        #total = int(experience[1])
+        #print experience, "\n\n\n\n\n\n\n\n\n\n\n\n\n"
+        temp_str = ''
+        i = 0
+        j = 0
+        while i < len(experience) and j < len(experience):
+          if experience[i] == "\'" and experience[i+1] == ',':
+            j = i+5
+            temp_str = ''
+            while experience[j] != "\'":
+              temp_str += experience[j]
+              j += 1
+            i+=j
+          else:
+            i+=1
+        print int(temp_str), "\n"
+          #print "\\'", "\n"
+            
+          #total += int(code[1])
+        #return total
+
 
 list_of_exclusions = {}
 
@@ -16,42 +40,34 @@ writer = csv.writer(output)
 writer.writerow(["NPI", "First Name", "Last Name", "School", "Grad Year", "Gender", 
 			   "Primary Specialty", "Zip Code", "Hospital CCN and score", "Experience", "Exclusions"])
 
-hospital_output = open
-
 
 with open('physician_data.csv') as data:
 	reader = csv.DictReader(data)
 	specialty_list = {}
-	hospital_list = []
 
-	counter = 0
+        #Groups NPIs by specialty
+    specialty_groups = {}
+    physician_scores = {}
+	
 	for row in reader:
 		if row['NPI'] in list_of_exclusions:
 			row['Exclusions'] = list_of_exclusions[row['NPI']]
 		else:
 			row['Exclusions'] = ''
 
-		"""	
+		counter += 1
+		#print counter
+			
 		#create a dictionary of specialty-count for the entire db	
 		specialty_key = row.get('Primary Specialty')
 		if specialty_key not in specialty_list.keys():
 			specialty_list[specialty_key] = 1
 		else:
 			specialty_list[specialty_key] += 1
-		"""
-			
-		#create a list of [hospital ccn, hospital score]
-		hospital_CCN_and_score = eval(row['Hospital CCN and score'])
-		for entry in hospital_CCN_and_score:
-			if entry not in hospital_list:
-				hospital_list.append(entry)
-	
-	#sort list based on hospital score		
-	hospital_list.sort(key=lambda x:x[1])
-	print hospital_list
 
-	#print specialty_list
-        
+    #print master_list[row['NPI']].get('Exclusions')
+    #break
+    #print "\n", counter
     #TODO: get the write to new output part
             
           
