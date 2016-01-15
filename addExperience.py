@@ -1,7 +1,8 @@
 """
 This script merges the initial conglomorated output with data about how many procedures each physician has performed.
 
-
+Author: Maddox Riley
+Date: Jan 15, 2016
 """
 
 import csv
