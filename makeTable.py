@@ -1,5 +1,19 @@
+"""
+makeTable.py
+1/11/2016
+Authors: Rex Chang, Maddox Riley
+
+This program gathers several databases and merges all relevant data into the main physician database.
+The output file is physician_data.csv, where each row contains information about a physician. 
+note: need to make sure the csv files name match
+"""
+
 import csv
 
+"""
+This Physician object contains the relevant fields that we want to store in the database. Can always
+add more or edit.
+"""
 class Physician:
 
 	def __init__(self, npi, first_name, last_name, grad_year, school, gender, specialty, zipcode, 
@@ -19,7 +33,8 @@ class Physician:
 
 """
 get_scores: matches a physician's ccn with the hospital database. returns a list of hospital ccn's and its respective score for a physician.
-Input: row(a row in the physician database, represents a physician), hospital_scores(a dictionary of hospital ccns and their scores)
+Input: row(a row in the physician database, represents a physician), hospital_scores(a dictionary of hospital ccns and their scores). There
+are at most 4 hospitals for a physician.
 """
 def get_scores(row, hospital_scores):
 	list_of_ccn = []
@@ -78,19 +93,6 @@ def get_experience(filename, procedures):
 
         data.close()
 
-                  #copy experience data to mainList. not the most efficient approach, but possibly necessary due to multiple
-                  #rows of the same physician
-        
-
-        """
-        npis = mainList.keys()
-        for item in npis:
-
-          if item in procedures:
-            mainList[item].experience = procedures[item]
-            #print "NPI: ", mainList[item].npi
-            #print " Experience: ", mainList[item].experience, "\n"
-        """
 
 if __name__ == '__main__':
 
@@ -99,13 +101,14 @@ if __name__ == '__main__':
 	procedures = {}
 
 	# create a dictionary of hospital ccn and score pairs
+	# this is the hospital data
 	with open('hospital scores.csv') as data:
 		reader = csv.DictReader(data)
 		for row in reader:
 			hospital_scores[row['Provider Number']] = row['Total Performance Score']
 	data.close()
 
-
+	#these are the procedure data sorted by physician last name
 	experience_filenames = ["2013_Procedures/2013_Procedures_A.csv", "2013_Procedures/2013_Procedures_B.csv",
      "2013_Procedures/2013_Procedures_C.csv",  "2013_Procedures/2013_Procedures_D.csv", 
      "2013_Procedures/2013_Procedures_EFG.csv",  "2013_Procedures/2013_Procedures_HIJ.csv", 
@@ -118,15 +121,18 @@ if __name__ == '__main__':
 		get_experience(name, procedures)
 
 	# create a dictionary of physician npi and physician object pairs
+	# this is the physician database
 	with open('National_Downloadable_File.csv') as data:
 		reader = csv.DictReader(data)
 		for row in reader:
+			#there will only be multiple rows of the same NPI if the physician has multiple zip codes
 			if row['NPI'] in mainList:
 				mainList[row['NPI']].zipcode.append(row['Zip Code'])
 
 			else:
 				list_of_ccn = get_scores(row, hospital_scores)
 
+				# set fields for the Physician object
 				physician = Physician(row['NPI'], row['First Name'], row['Last Name'], row['Graduation year'], \
 				row['Medical school name'], row['Gender'], row['Primary specialty'], row['Zip Code'], list_of_ccn, None)
 
@@ -142,6 +148,7 @@ if __name__ == '__main__':
 	# write out data
 	with open('physician_data.csv', 'wb') as output:
 		writer = csv.writer(output) 
+		#write out column names
 		writer.writerow(["NPI", "First Name", "Last Name", "School", "Grad Year", "Gender", 
 			"Primary Specialty", "Zip Code", "Hospital CCN and score", "Experience"])
 		for key, value in mainList.items():
@@ -149,5 +156,3 @@ if __name__ == '__main__':
 				value.gender, value.specialty, value.zipcode, value.hospital_scores, value.experience])
 
 	output.close()			
-
-	#do something

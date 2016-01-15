@@ -1,3 +1,12 @@
+"""
+matchPhysicianWithHospital.py
+Author: Rex Chang
+11/15/2016
+
+This program takes in the ranked hospital data and matches the hospitals with the physicians. 
+Outputs a table with each row being physician NPI, assciated hospital's CCN, hospital score, and ranking.
+A physician may be associated with multiple hospitals. 
+"""
 import csv
 
 

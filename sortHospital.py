@@ -1,6 +1,15 @@
+"""
+sortHospital.py
+Author: Rex Chang
+11/14/2016
+
+Reads in the main physician database and creates a csv file containing 
+hospital ccn number, hospital score, and the ranking of all hospitals
+
+Input: physician_data.csv
+Output: hospital_sorted_scores.csv
+"""
 import csv
-
-
 
 output = open('hospital_sorted_scores.csv', 'wb')
 writer = csv.writer(output)
