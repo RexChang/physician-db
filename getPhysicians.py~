@@ -27,11 +27,6 @@ def main():
 	browser.find_element_by_partial_link_text('CSV').click()
 
 	time.sleep(60)
-        
-        #try one of these:
-        #   browser.is_element_present
-        #   browser.present 
-        #   check header for file size
 
 	#do this if you want to rename the file
 	#os.system("mv National_Downloadable_File.csv Physician_DS")
