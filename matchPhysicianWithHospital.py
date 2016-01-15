@@ -33,7 +33,7 @@ with open('physician_data.csv') as data:
 					if row['NPI'] not in match:
 						match[row['NPI']] = [hospital_ccn, hospital_list[hospital_ccn]]
 					else:
-						match[row['NPI']].append([hospital_ccn, hospital_list[hospital_ccn]]) 		
+						match[row['NPI']].append([hospital_ccn, hospital_list[hospital_ccn]])		
 
 data.close()
 
