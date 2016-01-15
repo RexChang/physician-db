@@ -19,15 +19,15 @@ import xlrd
 def main():
 
 	masterlst = [['A', 'a'], ['B', 'b'], ['C', 'c'], ['D', 'd'], ['EFG', 'efg'], ['HIJ', 'hij'], ['KL', 'kl'], ['MN', 'mn'], ['OPQ', 'opq'], ['R', 'r'], ['S', 's'], ['TUVWX', 'tuvwx'], ['YZ and Numeric', 'yz']]
-	sheetlst = ['a', 'b', 'c', 'd', 'efg', 'hij', 'kl', 'mn', 'opq', 'r', 's', 'tuvwx', 'yz']
+	sheetlst = ['A', 'B', 'C', 'D', 'EFG', 'HIJ', 'KL', 'MN', 'OPQ', 'R', 'S', 'TUVWX', 'YZ']
 	profile = webdriver.FirefoxProfile()
 	profile.set_preference("browser.download.folderList", 2)
 	profile.set_preference("browser.download.dir", os.getcwd())
 	profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv, application/zip")
-	#browser = webdriver.Firefox(firefox_profile = profile)
+	browser = webdriver.Firefox(firefox_profile = profile)
 
-	#for i in range(len(masterlst)):
-	for i in range(1):
+	for i in range(len(masterlst)):
+	#for i in range(1):
 		link = 'Medicare Physician and Other Supplier PUF, CY2013, Microsoft Excel (.xlsx) Provider Last Name (%s)' % (masterlst[i][0])
 		browser.get('https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html')
 		browser.find_element_by_link_text(link).click()
@@ -55,7 +55,7 @@ def main():
 
 		#convert xlsx to csv
 		wrkbk = xlrd.open_workbook(filename2)
-		sheetname = 'PUPD_PUF_%s' % (sheetlst[i][0])
+		sheetname = 'PUPD_PUF_%s' % (sheetlst[i])
 		sheet = wrkbk.sheet_by_name(sheetname)
 		newfile = 'Medicare(%s).csv' % (masterlst[i][0])
 		newfile = open(newfile,'wb')
